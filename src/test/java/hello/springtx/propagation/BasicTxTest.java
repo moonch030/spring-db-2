@@ -15,6 +15,8 @@ import org.springframework.transaction.interceptor.DefaultTransactionAttribute;
 
 import javax.sql.DataSource;
 
+import static org.assertj.core.api.Assertions.*;
+
 @Slf4j
 @SpringBootTest
 public class BasicTxTest {
@@ -117,8 +119,7 @@ public class BasicTxTest {
         txManager.rollback(inner); //rollback-only 표시
 
         log.info("외부 트랜잭션 커밋");
-        txManager.commit(outer);
-        Assertions.assertThatThrownBy(() -> txManager.commit(outer))
+        assertThatThrownBy(() -> txManager.commit(outer))
                 .isInstanceOf(UnexpectedRollbackException.class);
     }
 }
